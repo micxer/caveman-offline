@@ -235,8 +235,12 @@ What that means depends on how you installed:
 Either way, restart afterwards, then verify it actually took:
 
 ```sh
-diff -rq ~/.claude/plugins/cache/caveman-offline/caveman/<version>/ . --exclude=.git
+diff -rq ~/.claude/plugins/cache/caveman-offline/caveman/<version>/ . \
+  --exclude=.git --exclude=.in_use
 ```
+
+`.in_use` is an empty marker directory the plugin loader creates inside the
+snapshot; excluding it is what stops the diff reporting a phantom difference.
 
 If you iterate on the ruleset often, this ceremony gets old fast — use
 `claude plugin init` instead, which installs to `~/.claude/skills/<name>/` and
