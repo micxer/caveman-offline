@@ -184,19 +184,30 @@ different product; this build simply has a narrower purpose.
 SessionStart hook reads it at runtime rather than embedding a copy, so there is
 no build step.
 
-There is still a sync step, though. `/plugin install` takes a **snapshot** of the
-repo into `<claude-config>/plugins/cache/caveman-offline/caveman/<version>/`, and
-the running plugin loads from that snapshot — not from your working tree. So
-after editing `SKILL.md`:
+There is still a sync step, though, and it has a sharp edge. `/plugin install`
+takes a **snapshot** of the repo into
+`<claude-config>/plugins/cache/caveman-offline/caveman/<version>/`, and the
+running plugin loads from that snapshot, not from your working tree.
+
+`claude plugin update` is **version-gated**: it compares `plugin.json`'s
+`version` against the installed one and reports "already at the latest version"
+if they match — even when the files differ. So editing `SKILL.md` and running
+update is a no-op. Bump the version too:
 
 ```sh
+# edit skills/caveman/SKILL.md, then bump "version" in .claude-plugin/plugin.json
 claude plugin update caveman@caveman-offline
 ```
 
-Then start a new session. Editing the repo alone changes nothing.
+Then restart. Verify it actually took:
 
-If you iterate on the ruleset often, `claude plugin init` installs into
-`~/.claude/skills/<name>/` instead, which loads directly with no snapshot.
+```sh
+diff -rq ~/.claude/plugins/cache/caveman-offline/caveman/<version>/ . --exclude=.git
+```
+
+If you iterate on the ruleset often, this ceremony gets old fast — use
+`claude plugin init` instead, which installs to `~/.claude/skills/<name>/` and
+loads directly with no snapshot and no version bump.
 
 ## Re-syncing from upstream
 
