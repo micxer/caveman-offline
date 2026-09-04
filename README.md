@@ -32,8 +32,14 @@ That matters more than it sounds, because of how Claude Code loads plugins:
   prompt, forever, whether you use the skill or not.
 
 So a plugin's baseline cost scales with how many skills it registers, not how
-big they are. Upstream registers 20 descriptions (~3,570 characters) plus three
-subagent descriptions. This build registers 4 (~625 characters).
+big they are. `claude plugin details` reports it directly:
+
+|  | Skills | Agents | Always-on cost |
+|---|---|---|---|
+| upstream `caveman` | 21 | 3 | **~1,244 tok** |
+| `caveman-offline` | 4 | 0 | **~177 tok** |
+
+About 1,067 tokens back in every session, for features you did not ask for.
 
 The second reason is scope. One upstream skill, `caveman-setup`, instructs the
 agent to rewrite your repository's LLM callsites so traffic is proxied through
@@ -138,6 +144,12 @@ src/hooks/cavecrew-model-overrides.js  kept byte-identical; inert here
 ```
 
 21 files, 150 KB. Upstream is 1,422 files, 20 MB.
+
+Verify the cost claim yourself after installing:
+
+```sh
+claude plugin details caveman@caveman-offline
+```
 
 `src/hooks/package.json` pins that directory to CommonJS. It is load-bearing:
 without it the `.js` hooks die with `require is not defined in ES module scope`
