@@ -6,7 +6,7 @@ gateway, no telemetry, no CLI to install.
 A stripped derivative of [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman),
 packaged as a local Claude Code plugin.
 
-```
+```text
 Before:  Sure! I'd be happy to help you with that. The issue you're
          experiencing is likely caused by an off-by-one error in the
          token expiry comparison within your authentication middleware...
@@ -22,7 +22,7 @@ Compression applies to prose only.
 Upstream started as a prose-compression skill and has since grown a hosted
 commercial product around it: an LLM proxy gateway, a telemetry CLI with
 login/billing, downloadable binaries, and a Playwright browse driver. As of
-upstream commit `df2ccd8` the Claude Code plugin ships **20 skills**, six of
+upstream commit `df2ccd8` the Claude Code plugin ships **21 skills**, six of
 which exist solely to drive that remote service.
 
 That matters more than it sounds, because of how Claude Code loads plugins:
@@ -71,16 +71,46 @@ write a mode string to a file under your Claude config directory.
 
 Requires Node.js and Claude Code.
 
+### From this repository
+
+No clone needed — Claude Code resolves `owner/repo` as a GitHub marketplace:
+
+```text
+/plugin marketplace add micxer/caveman-offline
+/plugin install caveman@caveman-offline
+```
+
+Same thing from a shell, if you prefer:
+
+```sh
+claude plugin marketplace add micxer/caveman-offline
+claude plugin install caveman@caveman-offline
+```
+
+To pick up later commits:
+
+```sh
+claude plugin marketplace update caveman-offline
+claude plugin update caveman@caveman-offline
+```
+
+### From a local clone
+
+Choose this if you plan to edit the ruleset — see [Customising](#customising).
+It also keeps you off the network entirely after the initial clone.
+
 ```sh
 git clone https://github.com/micxer/caveman-offline
 ```
 
-Then, in Claude Code:
+Then point the marketplace at the checkout, using an absolute path:
 
-```
+```text
 /plugin marketplace add /absolute/path/to/caveman-offline
 /plugin install caveman@caveman-offline
 ```
+
+### Either way
 
 Start a new session. You should see compressed output immediately — the
 SessionStart hook injects the ruleset before your first prompt.
@@ -90,7 +120,7 @@ If you also have upstream's plugin installed, disable it first
 
 ## Usage
 
-```
+```text
 /caveman              # configured default (full)
 /caveman lite         # lighter compression
 /caveman ultra        # maximum
@@ -128,7 +158,7 @@ Set `"defaultMode": "off"` in a repo to opt that project out entirely.
 
 ## What's in here
 
-```
+```text
 .claude-plugin/plugin.json        SessionStart + UserPromptSubmit hook wiring
 .claude-plugin/marketplace.json   local marketplace manifest
 skills/caveman/                   the compression ruleset — source of truth
