@@ -1,10 +1,10 @@
 # caveman-offline
 
-Compress Claude Code's output. Local instructions only — no network calls, no
-gateway, no telemetry, no CLI to install.
+Compress Claude Code's output. Runs entirely on your machine — no network calls,
+no gateway, no telemetry, no CLI to install.
 
 A stripped derivative of [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman),
-packaged as a local Claude Code plugin.
+packaged as a Claude Code plugin.
 
 ```text
 Before:  Sure! I'd be happy to help you with that. The issue you're
@@ -160,7 +160,7 @@ Set `"defaultMode": "off"` in a repo to opt that project out entirely.
 
 ```text
 .claude-plugin/plugin.json        SessionStart + UserPromptSubmit hook wiring
-.claude-plugin/marketplace.json   local marketplace manifest
+.claude-plugin/marketplace.json   marketplace manifest
 skills/caveman/                   the compression ruleset — source of truth
 skills/caveman-commit/            /caveman-commit
 skills/caveman-review/            /caveman-review
@@ -214,22 +214,25 @@ different product; this build simply has a narrower purpose.
 SessionStart hook reads it at runtime rather than embedding a copy, so there is
 no build step.
 
-There is still a sync step, though, and it has a sharp edge. `/plugin install`
-takes a **snapshot** of the repo into
+There is still a sync step, though, and it has two sharp edges.
+
+**Edge one: install takes a snapshot.** `/plugin install` copies the plugin into
 `<claude-config>/plugins/cache/caveman-offline/caveman/<version>/`, and the
-running plugin loads from that snapshot, not from your working tree.
+running plugin loads from that snapshot — never from your working tree.
 
-`claude plugin update` is **version-gated**: it compares `plugin.json`'s
-`version` against the installed one and reports "already at the latest version"
-if they match — even when the files differ. So editing `SKILL.md` and running
-update is a no-op. Bump the version too:
+**Edge two: update is version-gated.** `claude plugin update` compares
+`plugin.json`'s `version` against the installed one and reports "already at the
+latest version" when they match, *even if the files differ*. Editing `SKILL.md`
+and running update is therefore a no-op. The version has to be bumped as well.
 
-```sh
-# edit skills/caveman/SKILL.md, then bump "version" in .claude-plugin/plugin.json
-claude plugin update caveman@caveman-offline
-```
+What that means depends on how you installed:
 
-Then restart. Verify it actually took:
+| Installed from | To apply an edit |
+|---|---|
+| a local clone | bump `version`, then `claude plugin update caveman@caveman-offline` |
+| this repo (GitHub) | commit and push, then `claude plugin marketplace update caveman-offline` before `claude plugin update` — update reads the marketplace checkout, not your working tree |
+
+Either way, restart afterwards, then verify it actually took:
 
 ```sh
 diff -rq ~/.claude/plugins/cache/caveman-offline/caveman/<version>/ . --exclude=.git

@@ -1,7 +1,7 @@
 {
   "name": "caveman",
-  "version": "1.0.3",
-  "description": "Ultra-compressed output. Local instructions only — no network calls, no cloud gateway, no telemetry.",
+  "version": "1.0.4",
+  "description": "Ultra-compressed output. Runs entirely on your machine — no network calls, no cloud gateway, no telemetry.",
   "author": {
     "name": "Michael Weinrich",
     "url": "https://github.com/micxer/caveman-offline"
