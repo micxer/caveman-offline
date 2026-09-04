@@ -1,0 +1,59 @@
+caveman-offline
+===============
+
+This is a derivative work of caveman by Julius Brussee:
+
+    https://github.com/JuliusBrussee/caveman
+
+Upstream is MIT-licensed, with a scope note placing certain Engine-linked
+directories under Business Source License 1.1 instead: engine/, proxy/,
+cacheengine/, rewriter/, browse/, mcp/, shrink/, the cavemem Go core, and
+shared/platform/.
+
+**None of those BSL-licensed directories are present in this repository.**
+Everything redistributed here comes from upstream's MIT-licensed portion —
+specifically `skills/` and `src/hooks/`. The upstream scope note has therefore
+been dropped from LICENSE rather than carried forward, because it referenced a
+LICENSING.md and directories that do not exist in this tree and would have been
+misleading to readers.
+
+Files copied from upstream, unmodified
+--------------------------------------
+
+    skills/caveman/{SKILL.md,README.md}
+    skills/caveman-commit/{SKILL.md,README.md}
+    skills/caveman-review/{SKILL.md,README.md}
+    skills/caveman-stats/{SKILL.md,README.md}
+    src/hooks/caveman-activate.js
+    src/hooks/caveman-mode-tracker.js
+    src/hooks/caveman-config.js
+    src/hooks/caveman-parse.js
+    src/hooks/caveman-stats.js
+    src/hooks/cavecrew-model-overrides.js
+    src/hooks/package.json
+
+These are kept byte-identical to their upstream counterparts on purpose, so that
+`diff` against a fresh upstream checkout remains a meaningful review tool. See
+"Re-syncing from upstream" in README.md.
+
+Files original to this repository
+---------------------------------
+
+    .claude-plugin/plugin.json
+    .claude-plugin/marketplace.json
+    README.md
+    LICENSE (recomposed, see above)
+    NOTICE
+    .gitignore
+
+What was removed, and why
+-------------------------
+
+The full rationale is in README.md. Summarised: upstream has grown a hosted
+commercial product (a proxy gateway, a telemetry CLI, downloadable binaries)
+around what began as a prose-compression skill. This repository redistributes
+only the compression part.
+
+No criticism of upstream is intended or implied. The removed components are
+legitimate features of a different product; they are simply not what this build
+is for.

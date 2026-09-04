@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "caveman-offline",
+  "description": "Output compression for Claude Code. Local instructions only — no network calls, no gateway, no telemetry.",
+  "owner": {
+    "name": "Michael Weinrich",
+    "url": "https://github.com/micxer"
+  },
+  "plugins": [
+    {
+      "name": "caveman",
+      "description": "Talk like caveman. Cut output tokens, keep all technical accuracy. Local instructions only.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
