@@ -1,6 +1,6 @@
 {
   "name": "caveman",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Ultra-compressed output. Local instructions only — no network calls, no cloud gateway, no telemetry.",
   "author": {
     "name": "Michael Weinrich",
